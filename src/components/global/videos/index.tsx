@@ -35,7 +35,7 @@ type Props = {
 
 const Videos = ({folderId,videosKey,workspaceId}: Props) => {
   //wip add vidoes logic
-    const {data:videoData}=useQueryData([videosKey],()=>getAllUserVideos(folderId))
+  const {data:videoData}=useQueryData([videosKey],()=>getAllUserVideos(folderId))
   const {status:videosStatus,data:videos}=videoData as VideosProps
     return (
     <div className='flex flex-col gap-4 mt-4'>

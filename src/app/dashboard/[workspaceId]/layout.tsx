@@ -34,17 +34,19 @@ const layout = async({children,params:{workspaceId}}: Props) => {
    await query.prefetchQuery({
     queryKey:['user-workspaces'],
     queryFn:()=>getWorkspaces()
+    
 })
+
 await query.prefetchQuery({
     queryKey:['user-notifications'],
     queryFn:()=>getNotifications()
 })
 const dehydratedState = dehydrate(query);
-const serializedState = serialize(dehydratedState, { isJSON: false });
+const serializedState = serialize(dehydratedState, { isJSON: true });
 // Safely serialize the dehydrated state to prevent XSS vulnerabilities
 // const serializedState = serialize(dehydratedState, { isJSON: true });
     return (
-    <HydrationBoundary state={serializedState}>
+    <HydrationBoundary state={JSON.parse(serializedState)}>
         <div className='flex h-screen w-screen'>
             <Sidebar actionWorskspaceId={workspaceId} />
             <div className='w-full pt-28 p-4'>

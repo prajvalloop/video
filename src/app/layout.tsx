@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme";
 import ReactQueryProvider from "@/react-query";
 import { ReactProvider } from "@/redux/provider";
 import { Toaster } from "sonner";
+
 const manrope=Manrope({
   subsets:['latin']
 })
@@ -40,6 +41,7 @@ export default function RootLayout({
             </ReactProvider>
         
         </ThemeProvider>
+        
         </ClerkProvider>
       </body>
     </html>

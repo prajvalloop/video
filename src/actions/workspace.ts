@@ -1,6 +1,7 @@
 "use server"
 
 import { client } from "@/lib/prisma"
+import { WorkspaceProps } from "@/types"
 import { currentUser } from "@clerk/nextjs/server"
 
 
@@ -98,43 +99,93 @@ export const getWorkspaces = async () => {
   
       if (!user) return { status: 404 }
   
-      const workspaces = await client.user.findUnique({
-        where: {
-          clerkid: user.id,
-        },
-        select: {
-          subscription: {
+    //   const workspaces = await client.user.findUnique({
+    //     where: {
+    //       clerkid: user.id,
+    //     },
+    //     select: {
+    //       subscription: {
+    //         select: {
+    //           plan: true,
+    //         },
+    //       },
+    //       workspace: {
+    //         select: {
+    //           id: true,
+    //           name: true,
+    //           type: true,
+    //         },
+    //       },
+    //       members: {
+    //         select: {
+    //           WorkSpace: {
+    //             select: {
+    //               id: true,
+    //               name: true,
+    //               type: true,
+    //             },
+    //           },
+    //         },
+    //       },
+    //     },
+    //   })
+    const result = await client.$transaction(async (prisma) => {
+        const userData = await prisma.user.findUnique({
+            where: { clerkid: user.id },
             select: {
-              plan: true,
-            },
-          },
-          workspace: {
+                subscription: { select: { plan: true } },
+            }
+        })
+
+        const userWorkspaces = await prisma.workSpace.findMany({
+            where: { User: { clerkid: user.id } },
             select: {
-              id: true,
-              name: true,
-              type: true,
-            },
-          },
-          members: {
+                id: true,
+                name: true,
+                type: true,
+            }
+        })
+
+        const memberWorkspaces = await prisma.workSpace.findMany({
+            where: { members: { some: { User: { clerkid: user.id } } } },
             select: {
-              WorkSpace: {
-                select: {
-                  id: true,
-                  name: true,
-                  type: true,
-                },
-              },
-            },
-          },
-        },
-      })
+                id: true,
+                name: true,
+                type: true,
+            }
+        })
+
+        return { userData, userWorkspaces, memberWorkspaces }
+    })
   
-      if (workspaces) {
+      if (result) {
         // Convert enums to strings if necessary
+        const formattedData = {
+            data: {
+                subscription: result.userData?.subscription 
+                    ? { plan: result.userData.subscription.plan as 'FREE' | 'PRO' }
+                    : null,
+                workspace: result.userWorkspaces.map(w => ({
+                    id: w.id,
+                    name: w.name,
+                    type: w.type as 'PUBLIC' | 'PERSONAL'
+                })),
+                members: result.memberWorkspaces.map(w => ({
+                    WorkSpace: {
+                        id: w.id,
+                        name: w.name,
+                        type: w.type as 'PUBLIC' | 'PERSONAL'
+                    }
+                }))
+            }
+        }
+
+       return formattedData
         
-        return { status: 200, data: workspaces };
+        
     }
-    return { status: 404, data: [] };
+    return {status:404,data:[]}
+    
     } catch (error) {
         return { status: 500, data: [] };
     }
@@ -285,5 +336,49 @@ export const moveVideoLoaction=async(videoId:string,workSpaceId:string,folderId:
     return {status:404,data:'workspace/folder not found'}
     }catch(error){
         return {status:500,data:'Oops something went wrong'}
+    }
+}
+export const getPreviewVideo=async(videoId:string)=>{
+    try{
+        const user=await currentUser()
+        if(!user) return {status:404}
+        const video = await client.video.findUnique({
+            where: {
+              id: videoId,
+            },
+            select: {
+              title: true,
+              createdAt: true,
+              source: true,
+              description: true,
+              processing: true,
+              views: true,
+              summery: true,
+              User: {
+                select: {
+                  firstname: true,
+                  lastname: true,
+                  image: true,
+                  clerkid: true,
+                  trial: true,
+                  subscription: {
+                    select: {
+                      plan: true,
+                    },
+                  },
+                },
+              },
+            },
+          })
+          if (video){
+            return {
+                status:200,
+                data:video,
+                author:user.id===video.User?.clerkid? true:false
+            }
+          }
+          return {status:404}
+    }catch(error){
+        return {status:500}
     }
 }
