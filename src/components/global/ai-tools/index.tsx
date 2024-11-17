@@ -15,7 +15,7 @@ type Props = {
 const Aitools = ({plan,trial,videoId}: Props) => {
   //WIP setup with ai
     return (
-    <TabsContent value="Ai tools" className='p-5 bg-[#1d1d1d] rounded-xl flex flex-col gap-y-10'>
+    <TabsContent value="Ai tools">
         <div className='flex items-center'>
             <div className='w-8/12'>
             <h2 className='text-3xl font-bold'>Ai tools</h2>

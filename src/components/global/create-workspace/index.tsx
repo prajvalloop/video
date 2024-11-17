@@ -10,7 +10,7 @@ import WorkspaceForm from '@/components/forms/workspace-form'
 type Props = {}
 
 const CreateWorkspace = (props: Props) => {
-  const {data}=useQueryData(['user-workspaces'] , getWorkspaces)
+  const {data}=useQueryData(['user-workspaces'] , ()=> getWorkspaces() )
   const {data:plan}=data as {
     status:number,
     data:{

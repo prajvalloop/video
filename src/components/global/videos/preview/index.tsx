@@ -1,9 +1,9 @@
 'use client'
-import { getPreviewVideo } from '@/actions/workspace'
+import { getPreviewVideo, sendEmailForFirstView } from '@/actions/workspace'
 import { useQueryData } from '@/hooks/useQueryData'
 import { VideoProps } from '@/types'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useEffect } from 'react'
 import CopyLink from '../copy-link'
 import { truncateString } from '@/lib/utils'
 import RichLink from '../rich-link'
@@ -12,6 +12,7 @@ import TabMenu from '../../tabs'
 import Aitools from '../../ai-tools'
 import VideoTranscript from '../../video-transcript'
 import { TabsContent } from '@/components/ui/tabs'
+import Activities from '../../activities'
 
 
 type Props = {
@@ -19,15 +20,21 @@ type Props = {
 }
 
 const VideoPreview = ({videoId}: Props) => {
-    //wip setup notify first view
-    //wip set up activity
+    
     const router=useRouter()
     const {data}=useQueryData(['preview-video'],()=> getPreviewVideo(videoId))
+    const noifiyFirstView=async ()=> await sendEmailForFirstView(videoId)
     const {data:video,status,author}=data as VideoProps
     if (status!==200) router.push('/')
     const daysAgo=Math.floor(
         (new Date().getTime() - video.createdAt.getTime()) / (24*60*60*1000)
     )
+    useEffect(()=>{
+        if(video.views===0){
+            noifiyFirstView()
+        }
+       
+    },[])
     return (
     <div className='grid grid-cols-1 xl:grid-cols-3 p-10  lg:py-10 overflow-y-auto gap-5'>
         <div className=' flex flex-col lg:col-span-2 gap-y-10'>
@@ -81,9 +88,10 @@ const VideoPreview = ({videoId}: Props) => {
                 <TabMenu defaultValue='Ai tools' triggers={["Ai tools","Transcript","Activity"]}>
                             <Aitools videoId={videoId} trial={video.User?.trial!} plan={video.User?.subscription?.plan!} />
                             <VideoTranscript transcript={video.description!} />
-                            <TabsContent value="Activity">
+                            {/* <TabsContent value="Activity">
                                 Make changes to your account here.
-                            </TabsContent>
+                            </TabsContent> */}
+                            <Activities author={video.User?.firstname as string} videoId={videoId}/>
                 </TabMenu>
             </div>
         </div>

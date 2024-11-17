@@ -10,7 +10,7 @@ type Props = {}
 
 const Notifications = (props: Props) => {
   const {data:notifications}=useQueryData(
-    ['user-notifications'],getNotifications
+    ['user-notifications'],()=>getNotifications()
   )
   const {data:notification,status}=notifications as {
     status:number,

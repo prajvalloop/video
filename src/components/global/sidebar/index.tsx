@@ -39,8 +39,8 @@ const Sidebar = ({ actionWorskspaceId }: Props) => {
         console.log('change->', value)
         router.push(`/dashboard/${value}`)
     }
-    const { data, isFetched } = useQueryData(['user-workspaces'], getWorkspaces)
-    const {data:notifications}=useQueryData(["user-notifications"],getNotifications)
+    const { data, isFetched } = useQueryData(['user-workspaces'], ()=>getWorkspaces())
+    const {data:notifications}=useQueryData(["user-notifications"],()=>getNotifications())
     console.log("notifications->",notifications)
     const { data: workspace } = data as WorkspaceProps
     const {data:count}=notifications as NotificationProps
@@ -135,12 +135,13 @@ const Sidebar = ({ actionWorskspaceId }: Props) => {
                 </ul>
             </nav>
             <Separator className='w-4/5'/>
-            {workspace.subscription?.plan==='FREE' && <GlobalCard title={"Upgrade to Pro"} description='Unlock AI features like transcription,AI summary and more.' footer={<Button className='text-sm w-full mt-2'>
-                  
-                        Upgrade
-                    
-
-                </Button>}>
+            {workspace.subscription?.plan==='FREE' && 
+            
+            <GlobalCard title={"Upgrade to Pro"} 
+            description='Unlock AI features like transcription,AI summary and more.' 
+            footer={
+                <PaymentButton/>
+            }>
                 
                 </GlobalCard>}
         </div>
@@ -148,10 +149,10 @@ const Sidebar = ({ actionWorskspaceId }: Props) => {
 
 
     )
-    return (<div className='full'>
+    return (<div className='full '>
         <InfoBar/>
         
-        <div className='md:hidden my-4 fixed'>
+        <div className='md:hidden my-4 fixed '>
             <Sheet>
                 <SheetTrigger className='ml-2'>
                     <Button variant={"ghost"} className='mt-[2px]'>

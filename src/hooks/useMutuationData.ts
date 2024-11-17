@@ -19,7 +19,7 @@ export const useMutationData = (
     mutationFn,
     async onSuccess(data) {
       if (onSuccess) onSuccess()
-      // await client.refetchQueries({ queryKey: ['user-workspaces'], exact: true });
+      
       return toast(
         data?.status === 200 || data?.status === 201 ? 'Success' : 'Error',
         {
