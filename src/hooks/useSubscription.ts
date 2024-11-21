@@ -5,8 +5,8 @@ export const useSubscription=()=>{
     const onSubscribe=async()=>{
         setIsProcessing(true)
         const response=await axios.get("/api/payment")
-        if(response.data.status===200){
-            return window.location.href=`${response.data.session_url}`
+        if((response.data as any).status===200){
+            return window.location.href=`${(response.data as any).session_url}`
         }
         setIsProcessing(false)
     }

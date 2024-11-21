@@ -24,6 +24,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import InfoBar from '../info-bar'
 import { useDispatch } from 'react-redux'
 import { WORKSPACES } from '@/redux/slices/workspaces'
+import PaymentButton from '../payment-button'
 
 
 
