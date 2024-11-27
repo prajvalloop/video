@@ -1,9 +1,14 @@
 
+import { client } from "@/lib/prisma";
 import { currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 export async function POST(request:Request){
-    const user=await currentUser()
+    try{
+    // const user=await currentUser()
+    // console.log("hi->",request.headers.get('x-razorpay-Signature'))
+    // if(!user) return NextResponse.json({status:404})
+    // console.log("user->webhook",user.id)
     const SECRET="123456"
     const res=await request.json()
     const { createHmac } = await import('node:crypto');
@@ -14,18 +19,38 @@ export async function POST(request:Request){
     console.log('signature->',signature)
     if(signature!==digest) return NextResponse.json({ msg: "Invalid signature" }, { status: 401 });
     
-    if (res.event==='order.paid'){
-        console.log(res.payload)
-    }
-    if (res.event==='subscription.authenticated'){
-        console.log("1")
-        console.log(res.payload.subscription)
-    }
-    if(res.event==='subscription.activated'){
-        console.log("2")
-        console.log(res.payload.subscription)
-    }
     
-    console.log("yesss->",res)
-    return NextResponse.json({msg:'working'})
+   
+    
+    if(res.event==='subscription.charged'){
+    //     console.log("3")
+        const sub_id=res.payload.subscription.entity.id
+        const user_id=res.payload.subscription.entity.notes.clerkid
+        const customer=await client.user.update({
+            where:{
+                clerkid:user_id
+            },
+            data:{
+                subscription:{
+                    update:{
+                        data:{
+                            customerId:sub_id,
+                            plan:'PRO'
+                        }
+                    }
+                }
+            }
+        })
+    
+    if(customer) return NextResponse.json({status:200}) 
+    
+    }
+
+    
+    
+    return NextResponse.json({status:404})
+}catch(error){
+    console.log("error.message->",error)
+    return NextResponse.json({status:500})
+}
 }

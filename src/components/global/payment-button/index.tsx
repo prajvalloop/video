@@ -11,7 +11,7 @@ const PaymentButton = (props: Props) => {
     const {onSubscribe,isProcessing}=useSubscription()
     return (
     <Button className='text-sm w-full' onClick={onSubscribe}>
-        <Script type='text/javascript' src="https://checkout.razorpay.com/v1/checkout.js" />
+        
         <Loader color="#000" state={isProcessing}>
             Upgrade
         </Loader>

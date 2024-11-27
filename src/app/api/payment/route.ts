@@ -12,6 +12,9 @@ export async function GET (){
         plan_id: priceId,
         customer_notify: true,
         total_count: 12,
+        notes:{
+            clerkid:user.id
+        }
         
        
         
