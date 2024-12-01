@@ -1,11 +1,13 @@
 import React from 'react'
 
-type Props = {}
 
-const page = (props: Props) => {
+
+const page = () => {
   return (
     <div>
-      <div>page</div>
+      <div>
+      Page
+      </div>
       
     </div>
   )

@@ -4,8 +4,8 @@ import React from 'react'
 type Props = {
     trigger:React.ReactNode,
     children:React.ReactNode,
-    title:String,
-    description:String,
+    title:string,
+    description:string,
     className?:string
 }
 

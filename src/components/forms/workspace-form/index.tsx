@@ -4,9 +4,9 @@ import { Button } from '@/components/ui/button'
 import { useCreateWorkspace } from '@/hooks/useCreateWorkspace'
 import React from 'react'
 
-type Props = {}
 
-const WorkspaceForm = (props: Props) => {
+
+const WorkspaceForm = () => {
   const { errors, isPending, onFormSubmit, register } = useCreateWorkspace()
   return (
     <form

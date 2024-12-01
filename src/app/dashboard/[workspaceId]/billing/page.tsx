@@ -1,9 +1,9 @@
 import { getPaymentInfo } from '@/actions/user'
 import React from 'react'
 
-type Props = {}
 
-const BillingPage = async (props: Props) => {
+
+const BillingPage = async () => {
   const payment=await getPaymentInfo()
     return (
         <div className='bg-[#1d1d1d] flex flex-col gap-y-8 p-5 rounded-xl'>

@@ -13,6 +13,7 @@ import Aitools from '../../ai-tools'
 import VideoTranscript from '../../video-transcript'
 import { TabsContent } from '@/components/ui/tabs'
 import Activities from '../../activities'
+import EditVideo from '../editvideo'
 
 
 type Props = {
@@ -41,11 +42,10 @@ const VideoPreview = ({videoId}: Props) => {
             <div>
                 <div className='flex gap-x-5 items-start justify-between'>
                     <h2 className='text-white text-4xl font-bold'>{video.title}</h2>
-                    {/* {author ? (
-
-                    ): (
-                        <></>
-                    )} */}
+                    { author ? (
+                        <EditVideo videoId={videoId} title={video.title as string} description={video.description as string} />
+                    ):<></>}
+                    
                 </div>
                 <span className='flex gap-x-3 mt-2'>
                         <p className='text-[#9d9d9d] capitalize'>
@@ -56,17 +56,15 @@ const VideoPreview = ({videoId}: Props) => {
                         </p>
                 </span>
             </div>
-            <video preload='metadata' className='w-full h-[400px] aspect-video opacity-50 rounded-xl' controls>
+            <video preload='metad`ata' className='w-full h-[400px] aspect-video opacity-50 rounded-xl' controls>
                 <source src={`${process.env.NEXT_PUBLIC_CLOUD_FRONT_STREAM_URL}/${video.source}#1`} />
             </video>
             <div className='flex flex-col text-2xl gap-y-4'>
                 <div className='flex gap-x-5 items-center justify-between'>
                         <p className='text-[#bdbdbd] text-semibold'>Description</p>
-                        {/* {author ? (
-
-                        ):(
-                            <></>
-                        )} */}
+                       {author?(
+                        <EditVideo videoId={videoId} title={video.title as string} description={video.description as string}></EditVideo>
+                       ):<></>}
                 </div>
                 <p className='text-[#9d9d9d] text-medium'>
                     {video.description}

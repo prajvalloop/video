@@ -3,9 +3,10 @@ import { redirect } from 'next/navigation'
 
 import React from 'react'
 
-type Props = {}
+// Add this export at the top of the file
+export const dynamic = 'force-dynamic'
 
-const AuthCallBack = async(props: Props) => {
+const AuthCallBack = async() => {
     ///on authentication
     const auth=await onAuthenticatedUser()
     console.log('authstatus',auth.status)

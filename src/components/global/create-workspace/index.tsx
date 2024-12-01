@@ -7,9 +7,8 @@ import { Button } from '@/components/ui/button'
 import FolderDuotone from '@/components/icons/folder-duotone'
 import WorkspaceForm from '@/components/forms/workspace-form'
 
-type Props = {}
 
-const CreateWorkspace = (props: Props) => {
+const CreateWorkspace = () => {
   const {data}=useQueryData(['user-workspaces'] , ()=> getWorkspaces() )
   const {data:plan}=data as {
     status:number,

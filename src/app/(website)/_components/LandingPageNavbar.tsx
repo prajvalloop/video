@@ -4,9 +4,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-type Props = {}
 
-const LandingPageNavbar = (props: Props) => {
+
+const LandingPageNavbar = () => {
   return (
     <div className=' w-full flex justify-between items-center'>
         <div className='flex text-3xl font-semibold items-center gap-x-3'>

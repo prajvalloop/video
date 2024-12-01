@@ -5,9 +5,9 @@ import Loader from '../loader'
 import { useSubscription } from '@/hooks/useSubscription'
 import Script from 'next/script'
 
-type Props = {}
 
-const PaymentButton = (props: Props) => {
+
+const PaymentButton = () => {
     const {onSubscribe,isProcessing}=useSubscription()
     return (
     <Button className='text-sm w-full' onClick={onSubscribe}>
