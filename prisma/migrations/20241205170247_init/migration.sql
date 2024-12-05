@@ -8,6 +8,27 @@ CREATE TYPE "PRESET" AS ENUM ('HD', 'SD');
 CREATE TYPE "SUBSCRIPTION_PLAN" AS ENUM ('PRO', 'FREE');
 
 -- CreateTable
+CREATE TABLE "UserElectron" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+
+    CONSTRAINT "UserElectron_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ResetToken" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "token" TEXT NOT NULL,
+    "expiry" TIMESTAMP(3) NOT NULL,
+    "userId" UUID NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "ResetToken_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "User" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "email" TEXT NOT NULL,
@@ -129,6 +150,12 @@ CREATE TABLE "Invite" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "UserElectron_email_key" ON "UserElectron"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "ResetToken_token_key" ON "ResetToken"("token");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
@@ -145,6 +172,9 @@ CREATE UNIQUE INDEX "Media_userId_key" ON "Media"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Video_source_key" ON "Video"("source");
+
+-- AddForeignKey
+ALTER TABLE "ResetToken" ADD CONSTRAINT "ResetToken_userId_fkey" FOREIGN KEY ("userId") REFERENCES "UserElectron"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Comment" ADD CONSTRAINT "Comment_commentId_fkey" FOREIGN KEY ("commentId") REFERENCES "Comment"("id") ON DELETE SET NULL ON UPDATE CASCADE;

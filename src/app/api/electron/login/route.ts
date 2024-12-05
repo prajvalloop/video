@@ -19,7 +19,7 @@ export async function POST(req:NextRequest){
 
             })
         console.log("yes good")
-        if(!electronUser) return NextResponse.json({status:400,data:'Email doesnto exist'})
+        if(!electronUser) return NextResponse.json({status:400,data:'Invalid email or password exist'})
         else if(electronUser?.password===password){
             const secretKey=process.env.JWT_SECRET
             console.log("secretKey->",secretKey)
