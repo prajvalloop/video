@@ -1,10 +1,10 @@
 import { client } from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextResponse,NextRequest } from "next/server";
 
-export async function POST(req:NextResponse){
+export async function POST(req:NextRequest){
     try{
         const {token,password}=await req.json()
-        const resetToken =await prisma?.resetToken.findUnique({
+        const resetToken =await client.resetToken.findUnique({
             where:{token}
         })
         if(!resetToken || resetToken.expiry < new Date()){
@@ -13,7 +13,7 @@ export async function POST(req:NextResponse){
                 data:'Invalid or expired token'
             })
         }
-        await prisma?.userElectron.update({
+        await client.userElectron.update({
             where:{
                 id:resetToken.userId
             },

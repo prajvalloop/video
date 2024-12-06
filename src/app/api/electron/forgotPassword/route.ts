@@ -10,6 +10,12 @@ export async function POST(req:NextRequest){
         const resetToken=crypto.randomBytes(32).toString('hex')
 
         const expiry=new Date(Date.now()+1*60*60*1000)
+        const isExistUser=await client.user.findUnique({
+            where:{
+                email:email
+            }
+        })
+        if(!isExistUser) return NextResponse.json({status:400,data:'Emailid not registered'})
         const user = await client.userElectron.upsert({ where: { email }, create: { email }, update: {} });
 
         
