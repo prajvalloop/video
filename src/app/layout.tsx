@@ -13,7 +13,7 @@ const manrope=Manrope({
 })
 
 export const metadata: Metadata = {
-  title: "Opal",
+  title: "Recordify",
   description: "Share AI Powered videos with your friends",
 };
 

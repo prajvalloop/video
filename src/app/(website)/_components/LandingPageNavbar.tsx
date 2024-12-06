@@ -13,7 +13,7 @@ const LandingPageNavbar = () => {
             <Menu className='w-6 h-6' />
             
             <Image className='text-white' src='/opal-logo.svg' alt='logo' width={42} height={42} />
-            Opal
+            Recordify
         </div>
         <div className='hidden lg:flex gap-x-3 items-center'>
         <Link
