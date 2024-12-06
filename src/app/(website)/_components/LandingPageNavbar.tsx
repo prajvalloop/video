@@ -12,7 +12,7 @@ const LandingPageNavbar = () => {
         <div className='flex text-3xl font-semibold items-center gap-x-3'>
             <Menu className='w-6 h-6' />
             
-            <Image src='/opal-logo.svg' alt='logo' width={32} height={32} />
+            <Image className='text-white' src='/opal-logo.svg' alt='logo' width={42} height={42} />
             Opal
         </div>
         <div className='hidden lg:flex gap-x-3 items-center'>

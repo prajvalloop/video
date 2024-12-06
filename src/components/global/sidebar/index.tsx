@@ -57,7 +57,7 @@ const Sidebar = ({ actionWorskspaceId }: Props) => {
     const SidebarSection= (
         <div className='bg-[#111]  px-4 h-full w-[250px] flex flex-col gap-2 items-center overflow-hidden'>
             <div className='p-4 flex gap-2 justify-center items-center  '>
-                <Image src="/opal-logo.svg" height={40} width={40} alt="logo" />
+                <Image className='bg-white-200' src="/opal-logo.svg" height={40} width={40} alt="logo" />
                 <p className='text-2xl'>Opal</p>
             </div>
             
