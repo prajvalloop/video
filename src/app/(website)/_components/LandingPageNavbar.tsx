@@ -10,12 +10,12 @@ const LandingPageNavbar = () => {
   return (
     <div className=' w-full flex justify-between items-center'>
         <div className='flex text-3xl font-semibold items-center gap-x-3'>
-            <Menu className='w-6 h-6' />
+            {/* <Menu className='w-6 h-6' /> */}
             
             <Image className='text-white' src='/opal-logo.svg' alt='logo' width={42} height={42} />
             Recordify
         </div>
-        <div className='hidden lg:flex gap-x-3 items-center'>
+        {/* <div className='hidden lg:flex gap-x-3 items-center'>
         <Link
           href="/"
           className="bg-[#7320DD] py-2 px-5 font-semibold text-lg rounded-full hover:bg-[#7320DD]/80"
@@ -23,7 +23,7 @@ const LandingPageNavbar = () => {
           Home </Link>
             <Link href={'/'}>Pricing</Link>
             <Link href={'/'}>Contact</Link>
-        </div>
+        </div> */}
         <Link href={'/auth/sign-in'}>
             
             <Button className='flex items-center gap-x-2'>
@@ -32,7 +32,7 @@ const LandingPageNavbar = () => {
             </Button>
         </Link>
         
-        LandingPageNavbar
+       
         
         </div>
   )

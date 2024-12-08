@@ -28,8 +28,8 @@ const InfoBar = () => {
                 <Download size={20}/>
                 <span>Setup</span>
             </Button>
-            </a>
-            <UserButton/>
+            </a> 
+            <UserButton afterSignOutUrl="/"/>
 
         </div>
     </header>

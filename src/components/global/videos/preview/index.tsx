@@ -83,7 +83,7 @@ const VideoPreview = ({videoId}: Props) => {
                 <Download/>
             </div>
             <div>
-                <TabMenu defaultValue='Ai tools' triggers={["Ai tools","Transcript","Activity"]}>
+                <TabMenu defaultValue='Transcript' triggers={["Transcript","Activity"]}>
                             <Aitools videoId={videoId} trial={video.User?.trial!} plan={video.User?.subscription?.plan!} />
                             <VideoTranscript transcript={video.description!} />
                             {/* <TabsContent value="Activity">

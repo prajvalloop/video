@@ -54,11 +54,16 @@ export const onAuthenticatedUser=async ()=>{
             subscription:{
                 create:{}
             },
+            
             workspace:{
                 create:{
                     name:`${user.firstName}'s Workspace`,
-                    type:'PERSONAL'
-                }
+                    type:'PERSONAL',
+                    folders:{
+                        create:{}
+                    }
+                },
+                
             }
         },
         include:{
