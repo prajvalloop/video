@@ -7,33 +7,38 @@ import { sendEmail } from "./user"
 import {createClient,OAuthStrategy}  from "@wix/sdk"
 import {items} from '@wix/data'
 
-export const verifyAccessToWorkspace=async(workspaceId:string)=>{
-    try{
-        const user= await currentUser()
-        if(!user) return {status:403}
-        const isUserinworkspace=await client.workSpace.findUnique({
-            where:{
-                id:workspaceId,
-                OR:[{
-                    User:{
-                        clerkid:user.id
-                    }
+export const verifyAccessToWorkspace = async (workspaceId: string) => {
+    try {
+        const user = await currentUser();
+        if (!user) return { status: 403 };
+
+        const isUserInWorkspace = await client.workSpace.findUnique({
+            where: { id: workspaceId },
+            include: {
+                User: true, // Include the user relationship if necessary
+                members: {
+                    where: {
+                        User: {
+                            clerkid: user.id,
+                        },
+                    },
                 },
-            {
-               members:{
-                every:{
-                    User:{
-                        clerkid:user.id
-                    }
-                }
-               } 
-            }]
-            }
-        })
-        return {status:200,data:{workspace:isUserinworkspace}}
-        
-    }catch(error){
-        return {status:403,data:{workspace:null}}
+            },
+        });
+
+        // Check if the user is the owner or a member
+        const hasAccess =
+            isUserInWorkspace &&
+            (isUserInWorkspace.User?.clerkid === user.id || isUserInWorkspace.members.length > 0);
+
+        if (!hasAccess) {
+            return { status: 403,workspace:null };
+        }
+
+        return { status: 200, data: { workspace: isUserInWorkspace } };
+    } catch (error) {
+        console.error(error);
+        return { status: 403, data: { workspace: null } };
     }
 }
 export const getWorkspaceFolders=async(workspaceId:string)=>{
