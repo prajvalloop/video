@@ -427,7 +427,7 @@ export const sendEmailForFirstView=async(videoId:string)=>{
                 }
             })
         }
-        if(!video) return 
+        if(!video || video.User?.clerkid === user.id ) return 
         const {transporter,mailOptions}= await sendEmail(
             video?.User?.email!,
             'You got a viewer',

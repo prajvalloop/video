@@ -31,9 +31,14 @@ const VideoPreview = ({videoId}: Props) => {
         (new Date().getTime() - video.createdAt.getTime()) / (24*60*60*1000)
     )
     useEffect(()=>{
+        const callfun=async()=>{
         if(video.views===0){
-            noifiyFirstView()
+            console.log('render1111111111')
+            await noifiyFirstView()
         }
+    }
+        callfun()
+        
        
     },[])
     return (
@@ -85,7 +90,7 @@ const VideoPreview = ({videoId}: Props) => {
             <div>
                 <TabMenu defaultValue='Transcript' triggers={["Transcript","Activity"]}>
                             <Aitools videoId={videoId} trial={video.User?.trial!} plan={video.User?.subscription?.plan!} />
-                            <VideoTranscript transcript={video.description!} />
+                            <VideoTranscript transcript={video.summery!} />
                             {/* <TabsContent value="Activity">
                                 Make changes to your account here.
                             </TabsContent> */}

@@ -301,6 +301,12 @@ export const inviteMembers=async(workspaceId:string,recieverId:string,email:stri
                         id:true
                     }
                 })
+                const re=await client.user.findUnique({
+                    where:{
+                        email:email
+                    }
+                })
+                console.log("email---->",email)
                 const notification=await client.user.update({
                     where:{
                         clerkid:user.id
@@ -308,7 +314,7 @@ export const inviteMembers=async(workspaceId:string,recieverId:string,email:stri
                     data:{
                         notification:{
                             create:{
-                                content:`${user.firstName} ${user.lastName} invited ${senderInfo.firstname} into ${workspace.name}`
+                                content:`${user.firstName} ${user.lastName} invited ${re?.firstname} ${re?.lastname} into ${workspace.name}`
                             }
                         }
                     }
