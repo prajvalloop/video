@@ -12,7 +12,7 @@ type Props = {
 const RichLink = ({title,id,source,description}: Props) => {
     const copyRichText=()=>{
         const originalTitle=title
-        const thumbnail = `<a style="display: flex; flex-direction: column; gap: 10px" href="${process.env.NEXT_PUBLIC_HOST_URL}/preview/${id}">
+        const thumbnail = `<a style="display: flex; flex-direction: column; gap: 10px" href="${process.env.NEXT_PUBLIC_HOST_URL}preview/${id}">
     <h3 style="text-decoration: none; color: black; margin: 0;">${originalTitle}</h3>
     <p style="text-decoration: none; color: black; margin: 0;">${description}</p>
     <video

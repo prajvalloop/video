@@ -20,7 +20,7 @@ type Props = {
 const CopyLink = ({videoId,className,variant}: Props) => {
   const onCopyClipboard=()=>{
     navigator.clipboard.writeText(
-        `${process.env.NEXT_PUBLIC_HOST_URL}/preview/${videoId}`
+        `${process.env.NEXT_PUBLIC_HOST_URL}preview/${videoId}`
     )
     return toast('Copied',{
         description:'Link successfully copied'
